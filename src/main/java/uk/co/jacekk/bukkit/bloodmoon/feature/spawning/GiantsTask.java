@@ -10,7 +10,7 @@ import uk.co.jacekk.bukkit.bloodmoon.nms.EntityGiantZombie;
 
 import java.util.Random;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 
 public final class GiantsTask extends BaseTask<BloodMoon> {
 
@@ -49,7 +49,8 @@ public final class GiantsTask extends BaseTask<BloodMoon> {
 
                 entity.setPositionRotation(x, y, z, 0, 90);
                 ((CraftWorld) world).getHandle().addEntity(entity, SpawnReason.CUSTOM);
-                entity.p(null);
+                // TODO: What happens when you remove this call?
+//                entity.p(null);
             }
         }
     }

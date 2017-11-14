@@ -1,30 +1,33 @@
 package uk.co.jacekk.bukkit.bloodmoon.entity;
 
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import uk.co.jacekk.bukkit.baseplugin.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.bloodmoon.exceptions.EntityRegistrationException;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public enum BloodMoonEntityType {
 
-    CREEPER("Creeper", 50, EntityType.CREEPER, net.minecraft.server.v1_8_R3.EntityCreeper.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityCreeper.class),
-    ENDERMAN("Enderman", 58, EntityType.ENDERMAN, net.minecraft.server.v1_8_R3.EntityEnderman.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityEnderman.class),
-    SKELETON("Skeleton", 51, EntityType.SKELETON, net.minecraft.server.v1_8_R3.EntitySkeleton.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntitySkeleton.class),
-    SPIDER("Spider", 52, EntityType.SPIDER, net.minecraft.server.v1_8_R3.EntitySpider.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntitySpider.class),
-    ZOMBIE("Zombie", 54, EntityType.ZOMBIE, net.minecraft.server.v1_8_R3.EntityZombie.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityZombie.class),
-    GHAST("Ghast", 56, EntityType.GHAST, net.minecraft.server.v1_8_R3.EntityGhast.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityGhast.class),
-    BLAZE("Blaze", 61, EntityType.BLAZE, net.minecraft.server.v1_8_R3.EntityBlaze.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityBlaze.class),
-    WITHER("WitherBoss", 64, EntityType.WITHER, net.minecraft.server.v1_8_R3.EntityWither.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityWither.class),
-    WITCH("Witch", 66, EntityType.WITCH, net.minecraft.server.v1_8_R3.EntityWitch.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityWitch.class),
-    GIANT_ZOMBIE("Giant", 53, EntityType.GIANT, net.minecraft.server.v1_8_R3.EntityGiantZombie.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityGiantZombie.class);
+    CREEPER(	"Creeper", 		"creeper", 	50, EntityType.CREEPER, 	net.minecraft.server.v1_12_R1.EntityCreeper.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityCreeper.class),
+    SKELETON(	"Skeleton", 	"skeleton", 51, EntityType.SKELETON, 	net.minecraft.server.v1_12_R1.EntitySkeleton.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntitySkeleton.class),
+    SPIDER(		"Spider", 		"spider", 	52, EntityType.SPIDER,		net.minecraft.server.v1_12_R1.EntitySpider.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntitySpider.class),
+    GIANT_ZOMBIE("Giant", 		"giant", 	53, EntityType.GIANT, 		net.minecraft.server.v1_12_R1.EntityGiantZombie.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntityGiantZombie.class),
+    ZOMBIE(		"Zombie", 		"zombie", 	54, EntityType.ZOMBIE, 		net.minecraft.server.v1_12_R1.EntityZombie.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityZombie.class),
+    GHAST(		"Ghast", 		"ghast", 	56, EntityType.GHAST, 		net.minecraft.server.v1_12_R1.EntityGhast.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityGhast.class),
+    ENDERMAN(	"Enderman", 	"enderman", 58, EntityType.ENDERMAN, 	net.minecraft.server.v1_12_R1.EntityEnderman.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntityEnderman.class),
+    BLAZE(		"Blaze", 		"blaze", 	61, EntityType.BLAZE, 		net.minecraft.server.v1_12_R1.EntityBlaze.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityBlaze.class),
+    WITHER(		"WitherBoss", 	"wither", 	64, EntityType.WITHER, 		net.minecraft.server.v1_12_R1.EntityWither.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityWither.class),
+    WITCH(		"Witch", 		"witch", 	66, EntityType.WITCH, 		net.minecraft.server.v1_12_R1.EntityWitch.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityWitch.class);
 
     private final String name;
+    private final String technical_name;
     private final int id;
     private final EntityType entityType;
     private final Class<? extends EntityInsentient> nmsClass;
@@ -32,8 +35,9 @@ public enum BloodMoonEntityType {
 
     private static boolean registered = false;
 
-    private BloodMoonEntityType(String name, int id, EntityType entityType, Class<? extends EntityInsentient> nmsClass, Class<? extends EntityInsentient> bloodMoonClass) {
+    private BloodMoonEntityType(String name, String technical_name, int id, EntityType entityType, Class<? extends EntityInsentient> nmsClass, Class<? extends EntityInsentient> bloodMoonClass) {
         this.name = name;
+        this.technical_name = technical_name;
         this.id = id;
         this.entityType = entityType;
         this.nmsClass = nmsClass;
@@ -46,40 +50,68 @@ public enum BloodMoonEntityType {
             throw new EntityRegistrationException("Already registered.");
         }
 
-        Map<String, Class<?>> nameMap;
-        Map<Integer, Class<?>> idMap;
+        RegistryMaterials<MinecraftKey, Class<?>> regMap;
+        Map<Class<?>, Class<?>> idMap;
+        List<String> nameMap;
 
+        // Get map of registered names and ids
         try {
-            nameMap = ReflectionUtils.getFieldValue(EntityTypes.class, "c", Map.class, null);
-            idMap = ReflectionUtils.getFieldValue(EntityTypes.class, "e", Map.class, null);
+        	regMap = ReflectionUtils.getFieldValue(EntityTypes.class, "b", RegistryMaterials.class, null);
+            idMap = ReflectionUtils.getFieldValue(RegistryMaterials.class, "b", Map.class, regMap);
+            nameMap = ReflectionUtils.getFieldValue(EntityTypes.class, "g", List.class, null);
         } catch (Exception e) {
             throw new EntityRegistrationException("Failed to get existing entity maps.", e);
         }
 
+        // remove them and replace them with bloodmoon types
         for (BloodMoonEntityType entity : values()) {
             try {
                 nameMap.remove(entity.getName());
                 idMap.remove(entity.getID());
 
-                ReflectionUtils.invokeMethod(EntityTypes.class, "a", Void.class, null, new Class<?>[]{Class.class, String.class, int.class}, new Object[]{entity.getBloodMoonClass(), entity.getName(), entity.getID()});
+                ReflectionUtils.invokeMethod(EntityTypes.class, "a", Void.class, null, new Class<?>[]{int.class, String.class, Class.class, String.class}, new Object[]{entity.getID(), entity.getTechnicalName(), entity.getBloodMoonClass(), entity.getName()});
             } catch (Exception e) {
                 throw new EntityRegistrationException("Failed to call EntityTypes.a() for " + entity.getName(), e);
             }
         }
 
-        for (BiomeBase biomeBase : BiomeBase.getBiomes()) {
-            if (biomeBase == null) {
-                break;
-            }
+        
+        ArrayList<Integer> biomeIDs = new ArrayList<Integer>();
+        
+        // 1 - 39
+        for(int i = 0; i < 40;++i)
+        	biomeIDs.add(i);
+        
+        biomeIDs.add(127); // the void
+        
+        for(int i = 129; i < 135;++i)
+        	biomeIDs.add(i);
+        
+        biomeIDs.add(140);
+        biomeIDs.add(149);
+        biomeIDs.add(151);
+        biomeIDs.add(155);
+        biomeIDs.add(156);
+        biomeIDs.add(157);
+        biomeIDs.add(158);
+        
+        for(int i = 160; i < 168;++i)
+        	biomeIDs.add(i);
+
+        for (int ID : biomeIDs) {
+        	BiomeBase biomebase = BiomeBase.getBiome(ID);
 
             //for (String field : new String[]{"as", "at", "au", "av"}){
-            for (String field : new String[]{"at", "au", "av", "aw"}) {
+            // TODO: getMobs(EnumCreatureType) instead of reflection
+            for (EnumCreatureType T : new EnumCreatureType[] {EnumCreatureType.AMBIENT, EnumCreatureType.CREATURE, EnumCreatureType.MONSTER, EnumCreatureType.WATER_CREATURE}) {
                 try {
                     //System.out.println(field);
-                    List<BiomeBase.BiomeMeta> mobList = ReflectionUtils.getFieldValue(BiomeBase.class, field, List.class, biomeBase);
+                    @SuppressWarnings("static-access")
+					List<BiomeBase.BiomeMeta> mobList = biomebase.getMobs(T);
 //					@SuppressWarnings("unchecked")
                     //List<BiomeMeta> mobList = (List<BiomeMeta>) ReflectionUtils.getFieldValue(BiomeBase.class, field, BiomeBase.class, biomeBase);
 
+                    // XXX: Possible failure, check .b is correct
                     for (BiomeBase.BiomeMeta meta : mobList) {
                         for (BloodMoonEntityType entity : values()) {
                             if (entity.getNMSClass().equals(meta.b)) {
@@ -88,7 +120,7 @@ public enum BloodMoonEntityType {
                         }
                     }
                 } catch (Exception e) {
-                    throw new EntityRegistrationException("Failed to modify biome data field " + field, e);
+                    throw new EntityRegistrationException("Failed to modify biome data field " + T.toString(), e);
                 }
             }
         }
@@ -98,6 +130,10 @@ public enum BloodMoonEntityType {
 
     public String getName() {
         return this.name;
+    }
+    
+    public String getTechnicalName() {
+    	return this.technical_name;
     }
 
     public int getID() {
@@ -132,7 +168,8 @@ public enum BloodMoonEntityType {
         EntityInsentient entity = this.createEntity(world);
         entity.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
         world.addEntity(entity, SpawnReason.CUSTOM);
-        entity.p(null);
+        //TODO: Figure out what this does, removing this call
+//        entity.p(null);
     }
 
 }

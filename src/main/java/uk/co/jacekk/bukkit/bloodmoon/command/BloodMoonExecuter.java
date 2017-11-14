@@ -54,7 +54,8 @@ public class BloodMoonExecuter extends BaseCommandExecutor<BloodMoon> {
         }
     }
 
-    private List<String> activeWorldNames() {
+    @SuppressWarnings("unused")
+	private List<String> activeWorldNames() {
         ArrayList<String> names = new ArrayList<>(plugin.getServer().getWorlds().size());
         for (World world : plugin.getServer().getWorlds()) {
             if (plugin.isEnabled(world)) {

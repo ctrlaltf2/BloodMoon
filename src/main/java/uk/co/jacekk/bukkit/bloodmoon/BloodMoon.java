@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.metadata.MetadataValue;
 
+import net.md_5.bungee.api.ChatColor;
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.bloodmoon.command.BloodMoonExecuter;
@@ -177,7 +178,7 @@ public final class BloodMoon extends BasePlugin {
         String worldName = world.getName();
 
         if (!worldConfig.containsKey(worldName)) {
-            PluginConfig newConfig = new PluginConfig(new File(getBaseDirPath() + File.separator + worldName + ".yml"), Config.class, getLogger());
+            PluginConfig newConfig = new PluginConfig(new File(getBaseDirPath() + File.separator + worldName + ".yml"), Config.class, this.log);
 
             worldConfig.put(worldName, newConfig);
 
@@ -230,6 +231,10 @@ public final class BloodMoon extends BasePlugin {
         }
 
         return SpawnReason.DEFAULT;
+    }
+    
+    public String formatMessage(String msg) {
+    	return new String(ChatColor.DARK_RED + "[BloodMoon] " + ChatColor.RESET + msg);
     }
 
 }
