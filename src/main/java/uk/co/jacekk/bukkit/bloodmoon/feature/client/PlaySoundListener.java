@@ -1,6 +1,5 @@
 package uk.co.jacekk.bukkit.bloodmoon.feature.client;
 
-import java.util.List;
 import java.util.UUID;
 import org.bukkit.Sound;
 import org.bukkit.World;

@@ -3,10 +3,10 @@ package uk.co.jacekk.bukkit.bloodmoon.entity;
 import java.util.Random;
 import java.util.UUID;
 
-import net.minecraft.server.v1_8_R3.AttributeInstance;
-import net.minecraft.server.v1_8_R3.AttributeModifier;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.GenericAttributes;
+import net.minecraft.server.v1_12_R1.AttributeInstance;
+import net.minecraft.server.v1_12_R1.AttributeModifier;
+import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.GenericAttributes;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -125,5 +125,6 @@ public abstract class BloodMoonEntityLiving {
     public EntityType getEntityType() {
         return bukkitEntity.getType();
     }
+
 
 }
