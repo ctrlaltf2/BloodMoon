@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import net.minecraft.server.v1_12_R1.EntityInsentient;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.bloodmoon.BloodMoon;
 import uk.co.jacekk.bukkit.bloodmoon.Config;
@@ -72,12 +73,10 @@ public class MovementSpeedListener implements Listener {
             if (worldConfig.getStringList(Config.FEATURE_MOVEMENT_SPEED_MOBS).contains(entity.getType().name())) {
                 try {
                     BloodMoonEntityLiving bloodMoonEntity = BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle());
-                    //EntityInsentient sam = (EntityInsentient)((CraftLivingEntity) entity).getHandle();
-                    //System.err.println(bloodMoonEntity.toString() + "le mob");
                     double multiplier = worldConfig.getDouble((this.random.nextInt(100) < worldConfig.getInt(Config.FEATURE_MOVEMENT_SPEED_FAST_CHANCE)) ? Config.FEATURE_MOVEMENT_SPEED_FAST_MULTIPLIER : Config.FEATURE_MOVEMENT_SPEED_MULTIPLIER);
                     bloodMoonEntity.setSpeedMultiplier(multiplier);
                 } catch (IllegalArgumentException e) {
-                    // This means the entity is not supported *shrug*
+                    this.plugin.getLogger().warning(entity.getType().toString() + " is not a supported mob for speed multiplier!");
                 }
             }
         }

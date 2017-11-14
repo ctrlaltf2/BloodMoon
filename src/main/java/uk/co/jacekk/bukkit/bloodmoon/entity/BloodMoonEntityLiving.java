@@ -89,7 +89,7 @@ public abstract class BloodMoonEntityLiving {
                 System.err.println("Set speed attribute for mob " + this.nmsEntity.getName() + " was " + oldValue + " and is now " + theAttribute.getValue());
             }
         } catch (NullPointerException e) {
-            System.err.println("Null Exception");
+            System.err.println("Null Exception" + e);
         }
 
         //AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.d);
