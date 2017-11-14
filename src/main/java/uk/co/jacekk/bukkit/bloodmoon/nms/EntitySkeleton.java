@@ -96,13 +96,13 @@ public class EntitySkeleton extends net.minecraft.server.v1_12_R1.EntitySkeleton
     	
         //String worldName = this.world.worldData.getName();
         //PluginConfig worldConfig = plugin.getConfig(worldName);
-        World bukkitWorld = this.world.worldData.world.getWorld();
-        PluginConfig worldConfig = plugin.getConfig(bukkitWorld);
-
-        if (plugin.isActive(bukkitWorld) && worldConfig.getBoolean(Config.FEATURE_FIRE_ARROWS_ENABLED) && (this.random.nextInt(100) < worldConfig.getInt(Config.FEATURE_FIRE_ARROWS_CHANCE))
-                || (EnchantmentManager.getEnchantmentLevel(Enchantments.ARROW_FIRE, this.b(EnumHand.MAIN_HAND)) > 0)) {
-            final EntityCombustEvent event = new EntityCombustEvent(entityarrow.getBukkitEntity(), 100);
-            this.world.getServer().getPluginManager().callEvent(event);
-        }
+//        World bukkitWorld = this.world.worldData.world.getWorld();
+//        PluginConfig worldConfig = plugin.getConfig(bukkitWorld);
+//
+//        if (plugin.isActive(bukkitWorld) && worldConfig.getBoolean(Config.FEATURE_FIRE_ARROWS_ENABLED) && (this.random.nextInt(100) < worldConfig.getInt(Config.FEATURE_FIRE_ARROWS_CHANCE))
+//                || (EnchantmentManager.getEnchantmentLevel(Enchantments.ARROW_FIRE, this.b(EnumHand.MAIN_HAND)) > 0)) {
+//            final EntityCombustEvent event = new EntityCombustEvent(entityarrow.getBukkitEntity(), 100);
+//            this.world.getServer().getPluginManager().callEvent(event);
+//        }
     }
 }
