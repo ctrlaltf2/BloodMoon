@@ -38,7 +38,7 @@ public final class MoreSpawningListener extends BaseListener<BloodMoon> {
             for (int i = 0; i < Math.max(worldConfig.getInt(Config.FEATURE_MORE_SPAWNING_MULTIPLIER), 1); ++i) {
                 for (BloodMoonEntityType bloodMoonEntity : BloodMoonEntityType.values()) {
                     if (type == bloodMoonEntity.getEntityType()) {
-                        bloodMoonEntity.spawnEntity(event.getLocation().add((random.nextDouble() * 3) - 1.5, (random.nextDouble() * 3) - 1.5, (random.nextDouble() * 3) - 1.5));
+                        bloodMoonEntity.spawnEntity(event.getLocation().add((random.nextDouble() * 3) - 1.5, 1, (random.nextDouble() * 3) - 1.5));
                         return;
                     }
                 }
