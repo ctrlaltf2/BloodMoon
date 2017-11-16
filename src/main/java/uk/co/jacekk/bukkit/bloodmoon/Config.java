@@ -19,8 +19,8 @@ public class Config {
     public static final PluginConfigKey FEATURE_CHAT_MESSAGE_END_MESSAGE = new PluginConfigKey("features.chat-message.end-message", "&cThe bloodmoon is over !");
 
     public static final PluginConfigKey FEATURE_SERVER_COMMANDS_ENABLED = new PluginConfigKey("features.server-commands.enabled", false);
-    public static final PluginConfigKey FEATURE_SERVER_COMMANDS_START_COMMANDS = new PluginConfigKey("features.server-commands.commands.start", Arrays.asList("toggledownfall", "time set 0", "op Notch"));
-    public static final PluginConfigKey FEATURE_SERVER_COMMANDS_END_COMMANDS = new PluginConfigKey("features.server-commands.commands.end", Arrays.asList("toggledownfall", "time set 12000", "deop Notch"));
+    public static final PluginConfigKey FEATURE_SERVER_COMMANDS_START_COMMANDS = new PluginConfigKey("features.server-commands.commands.start", Arrays.asList("toggledownfall"));
+    public static final PluginConfigKey FEATURE_SERVER_COMMANDS_END_COMMANDS = new PluginConfigKey("features.server-commands.commands.end", Arrays.asList("toggledownfall"));
 
     public static final PluginConfigKey FEATURE_DISABLED_COMMANDS_ENABLED = new PluginConfigKey("features.disabled-commands.enabled", true);
     public static final PluginConfigKey FEATURE_DISABLED_COMMANDS_COMMANDS = new PluginConfigKey("features.disabled-commands.commands", Arrays.asList("spawn", "home"));
@@ -137,4 +137,7 @@ public class Config {
     public static final PluginConfigKey FEATURE_GIANTS_ENABLED = new PluginConfigKey("features.giants.enabled", true);
     public static final PluginConfigKey FEATURE_GIANTS_BREAK_BLOCKS = new PluginConfigKey("features.giants.break-blocks", Arrays.asList(Material.GRASS.name(), Material.LEAVES.name(), Material.WOOD.name(), Material.GLASS.name(), Material.CROPS.name(), Material.SOIL.name(), Material.LOG.name(), Material.WOOD_STEP.name(), Material.WOOD_STAIRS.name()));
 
+    public static final PluginConfigKey FEATURE_SKELETON_VOLLEY_ENABLED = new PluginConfigKey("features.arrow-volley.enabled", false);
+    public static final PluginConfigKey FEATURE_SKELETON_VOLLEY_CHANCE = new PluginConfigKey("features.arrow-volley.chance", 15);
+    public static final PluginConfigKey FEATURE_SKELETON_VOLLEY_AMOUNT = new PluginConfigKey("features.arrow-volley.amount", 5);
 }
