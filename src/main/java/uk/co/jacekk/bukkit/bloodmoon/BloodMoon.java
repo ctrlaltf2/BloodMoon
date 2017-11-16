@@ -20,7 +20,7 @@ import uk.co.jacekk.bukkit.bloodmoon.entity.BloodMoonEntityType;
 import uk.co.jacekk.bukkit.bloodmoon.event.BloodMoonEndEvent;
 import uk.co.jacekk.bukkit.bloodmoon.event.BloodMoonStartEvent;
 
-public final class BloodMoon extends BasePlugin {
+public class BloodMoon extends BasePlugin {
 
     public static boolean DEBUG = false;
 
@@ -31,7 +31,7 @@ public final class BloodMoon extends BasePlugin {
     @Override
     public void onEnable() {
         super.onEnable(true);
-
+        
         activeWorlds = new ArrayList<>();
         forceWorlds = new ArrayList<>();
         worldConfig = new HashMap<>();
@@ -199,12 +199,14 @@ public final class BloodMoon extends BasePlugin {
      * @return the {@link PluginConfig} for this world
      */
     public PluginConfig getConfig(World world) {
+    	String worldName = world.getName();
+    	
         Validate.notNull(world);
-        if (!worldConfig.containsKey(world.getName())) {
+        if (!worldConfig.containsKey(worldName)) {
             return createConfig(world);
         }
 
-        return worldConfig.get(world.getName());
+        return worldConfig.get(worldName);
     }
 
     /**

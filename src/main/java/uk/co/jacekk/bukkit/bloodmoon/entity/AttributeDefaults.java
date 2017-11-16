@@ -27,19 +27,8 @@ public class AttributeDefaults {
 		else if(gen_attr.toString().equals(GenericAttributes.j.toString())) // luck
 			return 0.0;
 		else {
-			plugin.getLogger().warning(gen_attr.toString() + " didn't match any generic attributes; " + GenericAttributes.i.toString() + ' ' + GenericAttributes.FOLLOW_RANGE.toString());
+			plugin.getLogger().warning(gen_attr.toString() + " didn't match any generic attributes; ");
 			return 0.0;
 		}
-		/* 
-  public static final net.minecraft.server.v1_12_R1.IAttribute maxHealth;
-  public static final net.minecraft.server.v1_12_R1.IAttribute FOLLOW_RANGE;
-  public static final net.minecraft.server.v1_12_R1.IAttribute c; // kb resist
-  public static final net.minecraft.server.v1_12_R1.IAttribute MOVEMENT_SPEED;
-  public static final net.minecraft.server.v1_12_R1.IAttribute e; // ???
-  public static final net.minecraft.server.v1_12_R1.IAttribute ATTACK_DAMAGE;
-  public static final net.minecraft.server.v1_12_R1.IAttribute g; // attack speed
-  public static final net.minecraft.server.v1_12_R1.IAttribute h; // armor
-  public static final net.minecraft.server.v1_12_R1.IAttribute i; // armor toughness
-  public static final net.minecraft.server.v1_12_R1.IAttribute j; // luck */
 	}
 }
