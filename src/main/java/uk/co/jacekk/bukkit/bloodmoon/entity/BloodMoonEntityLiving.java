@@ -7,6 +7,8 @@ import net.minecraft.server.v1_12_R1.AttributeInstance;
 import net.minecraft.server.v1_12_R1.AttributeModifier;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
+import net.minecraft.server.v1_12_R1.IAttribute;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -45,64 +47,32 @@ public abstract class BloodMoonEntityLiving {
             throw new IllegalArgumentException(nmsEntity.getClass().getName() + " not supported");
         }
     }
-
-    public void setFollowRangeMultiplier(double multiplier) {
-        AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.FOLLOW_RANGE);
-        AttributeModifier modifier = new AttributeModifier(followRangeUID, "BloodMoon follow range multiplier", multiplier, 1);
-
-        attributes.c(modifier);
-        attributes.b(modifier);
-    }
-
-    public void clearFollowRangeMultiplier() {
-        AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.FOLLOW_RANGE);
-        AttributeModifier modifier = new AttributeModifier(followRangeUID, "BloodMoon follow range multiplier", 1.0d, 1);
-
-        attributes.c(modifier);
-    }
-
-    public void setKnockbackResistanceMultiplier(double multiplier) {
-        AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.c);
-		//AttributeModifier modifier = new AttributeModifier(knockbackResistanceUID, "BloodMoon knockback resistance multiplier", multiplier, 1);
-
-        //attributes.c(modifier);
-        //attributes.b(modifier);
-    }
-
-    public void clearKnockbackResistanceMultiplier() {
-        AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.c);
-        //AttributeModifier modifier = new AttributeModifier(knockbackResistanceUID, "BloodMoon knockback resistance multiplier", , 1);
-        attributes.setValue(1.0d);
-        //attributes.c(modifier);
-    }
-
-    public void setSpeedMultiplier(double multiplier) {
+    
+    public void setAttributeMultiplier(double multiplier, IAttribute attribute_enum) {
         try {
-            AttributeInstance theAttribute = this.nmsEntity.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED);
+            AttributeInstance theAttribute = this.nmsEntity.getAttributeInstance(attribute_enum);
             if (theAttribute == null) {
-                System.err.println("That was null, wierd");
+                this.plugin.getLogger().warning("Set " + attribute_enum.toString() + " on entity " + this.nmsEntity.getName() + " failed");
                 return;
-            }
+            } 
             double oldValue = theAttribute.getValue();
             theAttribute.setValue(oldValue * multiplier);
-            if (BloodMoon.DEBUG) {
-                System.err.println("Set speed attribute for mob " + this.nmsEntity.getName() + " was " + oldValue + " and is now " + theAttribute.getValue());
-            }
-        } catch (NullPointerException e) {
-            System.err.println("Null Exception" + e);
+        } catch (Exception e) {
+//            this.plugin.getLogger().warning("Set " + attribute_enum.toString() + " on entity " + this.nmsEntity.getName() + " failed. This entity likely isn't supported for this attribute and should be removed from the config");
         }
-
-        //AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.d);
-        //AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "BloodMoon movement speed multiplier", multiplier, 1);
-        //attributes.c(modifier);
-        //attributes.b(modifier);
     }
-
-    public void clearSpeedMultiplier() {
-        AttributeInstance attributes = this.nmsEntity.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED);
-        AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "BloodMoon movement speed multiplier", 1.0d, 1);
-
-        attributes.c(modifier);
+    
+    public void clearAttributeMultiplier(IAttribute attribute_enum) {
+        try {
+            AttributeInstance theAttribute = this.nmsEntity.getAttributeInstance(attribute_enum);
+            if (theAttribute == null) {
+//                this.plugin.getLogger().warning("Clear " + attribute_enum.toString() + " on entity " + this.nmsEntity.getName() + " failed");
+                return;
+            }
+            theAttribute.setValue(AttributeDefaults.fromGeneric(attribute_enum, this.type, plugin));
+        } catch (Exception e) {
+//            this.plugin.getLogger().warning("Clear " + attribute_enum.toString() + " on entity " + this.nmsEntity.getName() + " failed. This entity likely isn't supported for this attribute and should be removed from the config");
+        }
     }
 
     //public abstract void onTick();
@@ -125,6 +95,5 @@ public abstract class BloodMoonEntityLiving {
     public EntityType getEntityType() {
         return bukkitEntity.getType();
     }
-
 
 }

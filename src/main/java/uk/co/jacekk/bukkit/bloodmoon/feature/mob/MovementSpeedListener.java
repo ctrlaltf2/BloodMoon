@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.GenericAttributes;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.bloodmoon.BloodMoon;
 import uk.co.jacekk.bukkit.bloodmoon.Config;
@@ -39,9 +40,11 @@ public class MovementSpeedListener implements Listener {
                     try {
                         BloodMoonEntityLiving bloodMoonEntity = BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle());
                         double multiplier = worldConfig.getDouble((this.random.nextInt(100) < worldConfig.getInt(Config.FEATURE_MOVEMENT_SPEED_FAST_CHANCE)) ? Config.FEATURE_MOVEMENT_SPEED_FAST_MULTIPLIER : Config.FEATURE_MOVEMENT_SPEED_MULTIPLIER);
-                        bloodMoonEntity.setSpeedMultiplier(multiplier);
+                        bloodMoonEntity.setAttributeMultiplier(multiplier, GenericAttributes.MOVEMENT_SPEED);
                     } catch (IllegalArgumentException e) {
                         // This means the entity is not supported *shrug*
+                    } catch (Exception e) {
+                    	plugin.getLogger().warning(entity.getName() + " is not supported for movement-speed!");
                     }
                 }
             }
@@ -55,9 +58,11 @@ public class MovementSpeedListener implements Listener {
         if (plugin.isFeatureEnabled(world, Feature.MOVEMENT_SPEED)) {
             for (LivingEntity entity : world.getLivingEntities()) {
                 try {
-                    BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle()).clearSpeedMultiplier();
+                    BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle()).clearAttributeMultiplier(GenericAttributes.MOVEMENT_SPEED);
                 } catch (IllegalArgumentException e) {
                     // This means the entity is not supported *shrug*
+                } catch (Exception e) {
+                	plugin.getLogger().warning(entity.getName() + " is not supported for movement-speed!");
                 }
             }
         }
@@ -74,9 +79,11 @@ public class MovementSpeedListener implements Listener {
                 try {
                     BloodMoonEntityLiving bloodMoonEntity = BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle());
                     double multiplier = worldConfig.getDouble((this.random.nextInt(100) < worldConfig.getInt(Config.FEATURE_MOVEMENT_SPEED_FAST_CHANCE)) ? Config.FEATURE_MOVEMENT_SPEED_FAST_MULTIPLIER : Config.FEATURE_MOVEMENT_SPEED_MULTIPLIER);
-                    bloodMoonEntity.setSpeedMultiplier(multiplier);
+                    bloodMoonEntity.setAttributeMultiplier(multiplier, GenericAttributes.MOVEMENT_SPEED);
                 } catch (IllegalArgumentException e) {
-                    this.plugin.getLogger().warning(entity.getType().toString() + " is not a supported mob for speed multiplier!");
+                	plugin.getLogger().warning(entity.getName() + " is not supported for movement-speed!");
+                } catch (Exception e) {
+                	plugin.getLogger().warning(entity.getName() + " is not supported for movement-speed!");
                 }
             }
         }

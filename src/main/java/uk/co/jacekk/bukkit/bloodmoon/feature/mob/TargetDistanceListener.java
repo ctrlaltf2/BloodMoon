@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import net.minecraft.server.v1_12_R1.GenericAttributes;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.bloodmoon.BloodMoon;
 import uk.co.jacekk.bukkit.bloodmoon.Config;
@@ -34,9 +35,11 @@ public class TargetDistanceListener implements Listener {
                 if (worldConfig.getStringList(Config.FEATURE_TARGET_DISTANCE_MOBS).contains(entity.getType().name())) {
                     try {
                         BloodMoonEntityLiving bloodMoonEntity = BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle());
-                        bloodMoonEntity.setFollowRangeMultiplier(worldConfig.getDouble(Config.FEATURE_TARGET_DISTANCE_MULTIPLIER));
+                        bloodMoonEntity.setAttributeMultiplier(worldConfig.getDouble(Config.FEATURE_TARGET_DISTANCE_MULTIPLIER), GenericAttributes.FOLLOW_RANGE);
                     } catch (IllegalArgumentException e) {
                         // This means the entity is not supported *shrug*
+                    }  catch (Exception e) {
+                    	plugin.getLogger().warning(entity.getName() + " is not supported for target-distance!");
                     }
                 }
             }
@@ -50,9 +53,11 @@ public class TargetDistanceListener implements Listener {
         if (plugin.isFeatureEnabled(world, Feature.TARGET_DISTANCE)) {
             for (LivingEntity entity : world.getLivingEntities()) {
                 try {
-                    BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle()).clearFollowRangeMultiplier();
+                    BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle()).clearAttributeMultiplier(GenericAttributes.FOLLOW_RANGE);
                 } catch (IllegalArgumentException e) {
                     // This means the entity is not supported *shrug*
+                } catch (Exception e) {
+                	plugin.getLogger().warning(entity.getName() + " is not supported for target-distance!");
                 }
             }
         }
@@ -69,9 +74,11 @@ public class TargetDistanceListener implements Listener {
                 try {
                     //((CraftLivingEntity)entity).setfol
                     BloodMoonEntityLiving bloodMoonEntity = BloodMoonEntityLiving.getBloodMoonEntity(((CraftLivingEntity) entity).getHandle());
-                    bloodMoonEntity.setFollowRangeMultiplier(worldConfig.getDouble(Config.FEATURE_TARGET_DISTANCE_MULTIPLIER));
+                    bloodMoonEntity.setAttributeMultiplier(worldConfig.getDouble(Config.FEATURE_TARGET_DISTANCE_MULTIPLIER), GenericAttributes.FOLLOW_RANGE);
                 } catch (IllegalArgumentException e) {
                     // This means the entity is not supported *shrug*
+                } catch (Exception e) {
+                	plugin.getLogger().warning(entity.getName() + " is not supported for target-distance!");
                 }
             }
         }

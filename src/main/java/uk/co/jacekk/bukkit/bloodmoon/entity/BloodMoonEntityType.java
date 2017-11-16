@@ -8,23 +8,23 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import uk.co.jacekk.bukkit.baseplugin.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.bloodmoon.exceptions.EntityRegistrationException;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public enum BloodMoonEntityType {
 
-    CREEPER(	"Creeper", 		"creeper", 	50, EntityType.CREEPER, 	net.minecraft.server.v1_12_R1.EntityCreeper.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityCreeper.class),
-    SKELETON(	"Skeleton", 	"skeleton", 51, EntityType.SKELETON, 	net.minecraft.server.v1_12_R1.EntitySkeleton.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntitySkeleton.class),
-    SPIDER(		"Spider", 		"spider", 	52, EntityType.SPIDER,		net.minecraft.server.v1_12_R1.EntitySpider.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntitySpider.class),
-    GIANT_ZOMBIE("Giant", 		"giant", 	53, EntityType.GIANT, 		net.minecraft.server.v1_12_R1.EntityGiantZombie.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntityGiantZombie.class),
-    ZOMBIE(		"Zombie", 		"zombie", 	54, EntityType.ZOMBIE, 		net.minecraft.server.v1_12_R1.EntityZombie.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityZombie.class),
-    GHAST(		"Ghast", 		"ghast", 	56, EntityType.GHAST, 		net.minecraft.server.v1_12_R1.EntityGhast.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityGhast.class),
-    ENDERMAN(	"Enderman", 	"enderman", 58, EntityType.ENDERMAN, 	net.minecraft.server.v1_12_R1.EntityEnderman.class, 	uk.co.jacekk.bukkit.bloodmoon.nms.EntityEnderman.class),
-    BLAZE(		"Blaze", 		"blaze", 	61, EntityType.BLAZE, 		net.minecraft.server.v1_12_R1.EntityBlaze.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityBlaze.class),
-    WITHER(		"WitherBoss", 	"wither", 	64, EntityType.WITHER, 		net.minecraft.server.v1_12_R1.EntityWither.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityWither.class),
-    WITCH(		"Witch", 		"witch", 	66, EntityType.WITCH, 		net.minecraft.server.v1_12_R1.EntityWitch.class, 		uk.co.jacekk.bukkit.bloodmoon.nms.EntityWitch.class);
+	// Name, technical name, id, nms class, custom class, health, movement speed
+    CREEPER("Creeper", "creeper", 50, EntityType.CREEPER,net.minecraft.server.v1_12_R1.EntityCreeper.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityCreeper.class, 20.0, 0.25),
+    SKELETON("Skeleton","skeleton",51, EntityType.SKELETON,net.minecraft.server.v1_12_R1.EntitySkeleton.class,uk.co.jacekk.bukkit.bloodmoon.nms.EntitySkeleton.class, 20.0, 0.25),
+    SPIDER("Spider", "spider", 52, EntityType.SPIDER,net.minecraft.server.v1_12_R1.EntitySpider.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntitySpider.class, 16.0, 0.3),
+    GIANT_ZOMBIE("Giant", "giant", 53, EntityType.GIANT, net.minecraft.server.v1_12_R1.EntityGiantZombie.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityGiantZombie.class, 100.0, 0.5),
+    ZOMBIE("Zombie", "zombie", 54, EntityType.ZOMBIE, net.minecraft.server.v1_12_R1.EntityZombie.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityZombie.class, 20.0, 0.23),
+    GHAST("Ghast", "ghast", 56, EntityType.GHAST, net.minecraft.server.v1_12_R1.EntityGhast.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityGhast.class, 10.0, 0.7),
+    ENDERMAN("Enderman","enderman",58, EntityType.ENDERMAN,net.minecraft.server.v1_12_R1.EntityEnderman.class,uk.co.jacekk.bukkit.bloodmoon.nms.EntityEnderman.class, 40.0, 0.3),
+    BLAZE("Blaze", "blaze", 61, EntityType.BLAZE, net.minecraft.server.v1_12_R1.EntityBlaze.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityBlaze.class, 20.0, 0.23),
+    WITHER("WitherBoss", "wither", 64, EntityType.WITHER, net.minecraft.server.v1_12_R1.EntityWither.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityWither.class, 300.0, 0.6),
+    WITCH("Witch", "witch", 66, EntityType.WITCH, net.minecraft.server.v1_12_R1.EntityWitch.class, uk.co.jacekk.bukkit.bloodmoon.nms.EntityWitch.class, 26.0, 0.25);
 
     private final String name;
     private final String technical_name;
@@ -32,16 +32,20 @@ public enum BloodMoonEntityType {
     private final EntityType entityType;
     private final Class<? extends EntityInsentient> nmsClass;
     private final Class<? extends EntityInsentient> bloodMoonClass;
+    private final double max_health;
+    private final double move_speed;
 
     private static boolean registered = false;
 
-    private BloodMoonEntityType(String name, String technical_name, int id, EntityType entityType, Class<? extends EntityInsentient> nmsClass, Class<? extends EntityInsentient> bloodMoonClass) {
+    private BloodMoonEntityType(String name, String technical_name, int id, EntityType entityType, Class<? extends EntityInsentient> nmsClass, Class<? extends EntityInsentient> bloodMoonClass, double max_health, double move_speed) {
         this.name = name;
         this.technical_name = technical_name;
         this.id = id;
         this.entityType = entityType;
         this.nmsClass = nmsClass;
         this.bloodMoonClass = bloodMoonClass;
+        this.max_health = max_health;
+        this.move_speed = move_speed;
     }
 
     @SuppressWarnings("unchecked")
@@ -171,5 +175,12 @@ public enum BloodMoonEntityType {
         //TODO: Figure out what this does, removing this call
 //        entity.p(null);
     }
-
+    
+    public double maxHealth() {
+    	return this.max_health;
+    }
+    
+    public double movementSpeed() {
+    	return this.move_speed;
+    }
 }
