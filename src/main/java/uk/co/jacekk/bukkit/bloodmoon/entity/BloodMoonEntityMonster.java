@@ -1,6 +1,9 @@
 package uk.co.jacekk.bukkit.bloodmoon.entity;
 
 import net.minecraft.server.v1_12_R1.EntityMonster;
+
+import java.util.Vector;
+
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,6 +11,11 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.bukkit.BukkitUtil.*;
+
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.bloodmoon.BloodMoon;
 import uk.co.jacekk.bukkit.bloodmoon.Config;
@@ -15,11 +23,13 @@ import uk.co.jacekk.bukkit.bloodmoon.Config;
 public abstract class BloodMoonEntityMonster extends BloodMoonEntityLiving {
 
     protected EntityMonster nmsEntity;
+    protected BloodMoon bPlugin;
 
     public BloodMoonEntityMonster(BloodMoon plugin, EntityMonster nmsEntity, BloodMoonEntityType type) {
         super(plugin, nmsEntity, type);
 
         this.nmsEntity = nmsEntity;
+        this.bPlugin = plugin;
     }
 
     protected Block getBreakableTargetBlock() {

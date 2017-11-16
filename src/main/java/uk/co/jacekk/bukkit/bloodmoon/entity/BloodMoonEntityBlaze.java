@@ -22,7 +22,13 @@ public class BloodMoonEntityBlaze extends BloodMoonEntityMonster {
         String entityName = getEntityType().name().toUpperCase();
         PluginConfig worldConfig = plugin.getConfig(world);
 
-        if (nmsEntity.getGoalTarget() instanceof EntityHuman && plugin.isActive(world) && plugin.isFeatureEnabled(world, Feature.BREAK_BLOCKS) && worldConfig.getStringList(Config.FEATURE_BREAK_BLOCKS_MOBS).contains(entityName) && nmsEntity.getWorld().getTime() % 20 == 0 && this.isTargetInWorld()) {
+        if (nmsEntity.getGoalTarget() instanceof EntityHuman && 
+        		plugin.isActive(world) &&
+        		plugin.isFeatureEnabled(world, Feature.BREAK_BLOCKS) &&
+        		worldConfig.getStringList(Config.FEATURE_BREAK_BLOCKS_MOBS).contains(entityName) &&
+        		nmsEntity.getWorld().getTime() % 20 == 0 &&
+        		this.isTargetInWorld()) {
+        	
             Block[] blocks = new Block[2];
 
             blocks[0] = this.getBreakableTargetBlock();
