@@ -33,5 +33,4 @@ public class BloodMoonEntitySkeleton extends BloodMoonEntityMonster {
             }
         }
     }
-
 }
