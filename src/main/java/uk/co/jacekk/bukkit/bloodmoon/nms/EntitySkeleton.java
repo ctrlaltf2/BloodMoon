@@ -75,7 +75,7 @@ public class EntitySkeleton extends net.minecraft.server.v1_12_R1.EntitySkeleton
     	float velocity = 1.6F;
     	
     	if(amount > 1)
-    		accuracy *= 2;
+    		accuracy *= 2; // reduce accuracy for volleys
     	
     	for(int i = 0; i < amount;++i) {
 	    	EntityArrow entityarrow = this.a(distanceFactor);
