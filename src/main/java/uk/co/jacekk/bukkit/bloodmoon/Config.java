@@ -26,7 +26,7 @@ public class Config {
     public static final PluginConfigKey FEATURE_DISABLED_COMMANDS_COMMANDS = new PluginConfigKey("features.disabled-commands.commands", Arrays.asList("spawn", "home"));
 
     public static final PluginConfigKey FEATURE_PLAY_SOUND_ENABLED = new PluginConfigKey("features.play-sound.enabled", true);
-    public static final PluginConfigKey FEATURE_PLAY_SOUND_SOUND = new PluginConfigKey("features.play-sound.sound", "WITHER_SPAWN");
+    public static final PluginConfigKey FEATURE_PLAY_SOUND_SOUND = new PluginConfigKey("features.play-sound.sound", "ENTITY_WITHER_SPAWN");
     public static final PluginConfigKey FEATURE_PLAY_SOUND_PITCH = new PluginConfigKey("features.play-sound.pitch", 1.0d);
     public static final PluginConfigKey FEATURE_PLAY_SOUND_VOLUME = new PluginConfigKey("features.play-sound.volume", 1.0d);
 
@@ -51,13 +51,13 @@ public class Config {
 
     public static final PluginConfigKey FEATURE_TARGET_DISTANCE_ENABLED = new PluginConfigKey("features.target-distance.enabled", true);
     public static final PluginConfigKey FEATURE_TARGET_DISTANCE_MULTIPLIER = new PluginConfigKey("features.target-distance.multiplier", 2.0d);
-    public static final PluginConfigKey FEATURE_TARGET_DISTANCE_MOBS = new PluginConfigKey("features.target-distance.mobs", Arrays.asList("ZOMBIE", "SKELETON", "SPIDER", "CREEPER"));
+    public static final PluginConfigKey FEATURE_TARGET_DISTANCE_MOBS = new PluginConfigKey("features.target-distance.mobs", Arrays.asList("ZOMBIE", "SPIDER", "CREEPER"));
 
     public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_ENABLED = new PluginConfigKey("features.movement-speed.enabled", true);
     public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_MULTIPLIER = new PluginConfigKey("features.movement-speed.multiplier", 1.20d);
     public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_FAST_CHANCE = new PluginConfigKey("features.movement-speed.fast-chance", 15);
     public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_FAST_MULTIPLIER = new PluginConfigKey("features.movement-speed.fast-multiplier", 1.3d);
-    public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_MOBS = new PluginConfigKey("features.movement-speed.mobs", Arrays.asList("ZOMBIE", "SKELETON", "CREEPER"));
+    public static final PluginConfigKey FEATURE_MOVEMENT_SPEED_MOBS = new PluginConfigKey("features.movement-speed.mobs", Arrays.asList("ZOMBIE", "CREEPER"));
 
     public static final PluginConfigKey FEATURE_BREAK_BLOCKS_ENABLED = new PluginConfigKey("features.break-blocks.enabled", true);
     public static final PluginConfigKey FEATURE_BREAK_BLOCKS_DROP_ITEMS = new PluginConfigKey("features.break-blocks.drop-items", true);
